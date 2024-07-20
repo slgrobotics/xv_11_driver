@@ -64,7 +64,7 @@
 // default xv11 dev name.  Suggest you use symbolic link for an easier to ricognize name on your system
 // example:  sudo ln -s /dev/yourTtyDevName /dev/ttyXV11
 // Here I assume you have setup symbolic link to your actual serial port tty driver to the lidar
-#define XV11_PORT_DEFAULT "/dev/ttyXV11"           // Serial device driver name (sym link to real dev)
+#define XV11_PORT_DEFAULT "/dev/ttyACM0"           // Serial device driver name (or a sym link to real dev, like /dev/ttyXV11)
 #define XV11_BAUD_RATE_DEFAULT 115200              // Serial baud rate
 #define XV11_FRAME_ID_DEFAULT "neato_laser"        // frame_id in LaserScan messages
 #define XV11_FIRMWARE_VERSION_DEFAULT 2            // XV-11 firmware rev. 1 is oldest
@@ -76,16 +76,16 @@ int main(int argc, char * argv[])
 
   auto node = rclcpp::Node::make_shared("xv11_laser");
 
-  node->declare_parameter("port");
+  node->declare_parameter("port", XV11_PORT_DEFAULT);
   auto port_param      = rclcpp::Parameter("port", XV11_PORT_DEFAULT);
 
-  node->declare_parameter("baud_rate");
+  node->declare_parameter("baud_rate", XV11_BAUD_RATE_DEFAULT);
   auto baud_rate_param = rclcpp::Parameter("baud_rate", XV11_BAUD_RATE_DEFAULT);
 
-  node->declare_parameter("frame_id");
+  node->declare_parameter("frame_id", XV11_FRAME_ID_DEFAULT);
   auto frame_id_param  = rclcpp::Parameter("frame_id", XV11_FRAME_ID_DEFAULT);
 
-  node->declare_parameter("firmware_version");
+  node->declare_parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
   auto firmware_param  = rclcpp::Parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
     
   node->get_parameter_or("port", port_param, port_param);
