@@ -16,12 +16,13 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_executable(xv_11_driver src/xv_11_driver.cpp src/xv11_laser.cpp)
-ament_target_dependencies(xv_11_driver rclcpp std_msgs sensor_msgs)
 
-#target_include_directories(xv_11_driver
-#  PUBLIC
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#    $<INSTALL_INTERFACE:include>)
+target_link_libraries(xv_11_driver PUBLIC
+  ${sensor_msgs_TARGETS}
+  ${std_msgs_TARGETS}
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
+)
 
 install(TARGETS
   xv_11_driver
